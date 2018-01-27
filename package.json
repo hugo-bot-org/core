@@ -1,0 +1,23 @@
+{
+    "name": "core",
+    "version": "1.0.0",
+    "description": "Core scripts for Hugo",
+    "main": "dist/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc",
+        "build-dev": "tsc --watch",
+        "transfer-core": "npm run build && rm -rf core.zip && zip -r core.zip ./ -x ./node_modules/**\\* ./.git/**\\* && scp core.zip maxine@192.168.1.10:/home/maxine && ssh maxine@192.168.1.10 'cd /home/maxine/; unzip core.zip -d core; cd core; npm i; echo \"ALL DONE\"; exit;'",
+        "transfer-core-nobuild": "rm -rf core.zip && zip -r core.zip ./ -x ./node_modules/**\\* ./.git/**\\* && scp core.zip maxine@192.168.1.10:/home/maxine && ssh maxine@192.168.1.10 'cd /home/maxine/; unzip core.zip -d core; cd core; npm i; echo \"ALL DONE\"; exit;'"
+    },
+    "author": "Caius Citiriga",
+    "license": "MIT",
+    "dependencies": {
+        "sleep": "5.1.1",
+        "typescript": "2.6.2",
+        "wiringpi-node": "2.4.4"
+    },
+    "devDependencies": {
+        "@types/wiring-pi": "2.2.3"
+    }
+}
