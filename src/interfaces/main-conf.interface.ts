@@ -14,6 +14,9 @@ export interface MainConf {
         lights: {
             A: number,
             B: number
+        },
+        buzzer: {
+            buzzer: number
         }
     }
 }

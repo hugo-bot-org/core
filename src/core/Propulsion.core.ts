@@ -95,7 +95,6 @@ export class Propulsion implements IntercomAble {
     }
 
     private setPinModes() {
-        this.wpi.pinMode(12, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.driver, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.A.FWD, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.A.BWD, this.wpi.OUTPUT);

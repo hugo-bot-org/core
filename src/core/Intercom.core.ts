@@ -2,13 +2,15 @@ import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { CamIntercomEnum } from "../enums/cam-intercom.enum";
+import { BuzzerIntercomEnum } from "../enums/buzzer-intercom.enum";
 import { LightingIntercomEnum } from "../enums/lighting-intercom.enum";
 import { PropulsionIntercomEnum } from "../enums/propulsion-intercom.enum";
 
 export class Intercom {
-    private static _$propulsionIntercom: BehaviorSubject<PropulsionIntercomEnum> = new BehaviorSubject(null);
-    private static _$lightingIntercom: BehaviorSubject<LightingIntercomEnum> = new BehaviorSubject(null);
     private static _$camIntercom: BehaviorSubject<CamIntercomEnum> = new BehaviorSubject(null);
+    private static _$buzzerIntercom: BehaviorSubject<BuzzerIntercomEnum> = new BehaviorSubject(null);
+    private static _$lightingIntercom: BehaviorSubject<LightingIntercomEnum> = new BehaviorSubject(null);
+    private static _$propulsionIntercom: BehaviorSubject<PropulsionIntercomEnum> = new BehaviorSubject(null);
 
 
     public static get $propulsionIntercom(): Observable<PropulsionIntercomEnum> {
@@ -33,5 +35,13 @@ export class Intercom {
 
     public static set camIntercom(value: CamIntercomEnum) {
         this._$camIntercom.next(value);
+    }
+
+    public static get $buzzerIntercom(): Observable<BuzzerIntercomEnum> {
+        return this._$buzzerIntercom.asObservable();
+    }
+
+    public static set buzzerIntercom(value: BuzzerIntercomEnum) {
+        this._$buzzerIntercom.next(value);
     }
 }

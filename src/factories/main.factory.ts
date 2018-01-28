@@ -1,5 +1,6 @@
 import { WPIFactory } from "./wpi.factory";
 import { CamFactory } from "./cam.factory";
+import { BuzzerFactory } from "./buzzer.factory";
 import { LightingFactory } from "./lighting.factory";
 import { PropulsionFactory } from "./propulsion.factory";
 
@@ -9,6 +10,7 @@ export class Factory {
         Cam: CamFactory.resolve(),
         Propulsion: PropulsionFactory.resolve(),
         Lighting: LightingFactory.resolve(),
+        Buzzer: BuzzerFactory.resolve(),
     };
 
     public getInstance(instance: string) {
