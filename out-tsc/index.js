@@ -9,14 +9,7 @@ class HUGO {
         this.setRootDir();
         test_1.Test.testPin23();
         const factory = new main_factory_1.Factory();
-        try {
-            const instance = factory.getInstance(instances_const_1.INSTANCES.WPI);
-            console.log(instance);
-        }
-        catch (e) {
-            console.log(e);
-        }
-        // this.propulsion = new Propulsion();
+        this.propulsion = factory.getInstance(instances_const_1.INSTANCES.Propulsion);
     }
     setRootDir() {
         const arrayFormPath = path.resolve(__dirname)

@@ -2,7 +2,7 @@ import * as WPI from 'wiringpi-node';
 
 import { WiringPINode } from "../interfaces/wiringpi-node.interface";
 
-export class WPIInstance {
+export class WPIWrapper {
     private _wpi: WiringPINode;
 
     public get instance(): WiringPINode {

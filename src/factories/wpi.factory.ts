@@ -1,14 +1,15 @@
-import { Factory } from "../interfaces/factory.interface";
-import { WPIInstance } from "../core/GPIO.core";
+import { WPIWrapper } from "../core/WPIWrapper.core";
 
-export class WPIFactory implements Factory {
-    public instance: WPIInstance;
+import { WiringPINode } from "../interfaces/wiringpi-node.interface";
 
-    public resolve(): WPIInstance {
-        if (!this.instance) {
-            this.instance = new WPIInstance();
+export class WPIFactory {
+    private static instance: WiringPINode;
+
+    public static resolve(): WiringPINode {
+        if (!WPIFactory.instance) {
+            WPIFactory.instance = new WPIWrapper().instance;
         }
 
-        return this.instance;
+        return WPIFactory.instance;
     }
 }

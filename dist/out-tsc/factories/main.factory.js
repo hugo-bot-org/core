@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const wpi_factory_1 = require("./wpi.factory");
+const propulsion_factory_1 = require("./propulsion.factory");
 class Factory {
     constructor() {
         this.factories = {
-            WPIInstance: new wpi_factory_1.WPIFactory().resolve()
+            WPI: wpi_factory_1.WPIFactory.resolve(),
+            Propulsion: propulsion_factory_1.PropulsionFactory.resolve()
         };
     }
     getInstance(instance) {

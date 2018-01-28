@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const GPIO_core_1 = require("../core/GPIO.core");
+const WPIWrapper_core_1 = require("../core/WPIWrapper.core");
 class WPIFactory {
-    resolve() {
-        if (!this.instance) {
-            this.instance = new GPIO_core_1.WPIInstance();
+    static resolve() {
+        if (!WPIFactory.instance) {
+            WPIFactory.instance = new WPIWrapper_core_1.WPIWrapper().instance;
         }
-        return this.instance;
+        return WPIFactory.instance;
     }
 }
 exports.WPIFactory = WPIFactory;

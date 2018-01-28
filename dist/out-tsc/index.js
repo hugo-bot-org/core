@@ -10,8 +10,12 @@ class HUGO {
         test_1.Test.testPin23();
         const factory = new main_factory_1.Factory();
         try {
-            const instance = factory.getInstance(instances_const_1.INSTANCES.WPI);
-            console.log(instance);
+            const WPIInstance = factory.getInstance(instances_const_1.INSTANCES.WPI);
+            const PropulsionInstance = factory.getInstance(instances_const_1.INSTANCES.Propulsion);
+            PropulsionInstance.RIGHT();
+            setTimeout(() => {
+                PropulsionInstance.STOP();
+            }, 1000);
         }
         catch (e) {
             console.log(e);

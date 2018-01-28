@@ -1,12 +1,14 @@
 import * as path from 'path';
 
-import { Test } from "./test";
 
+import { Test } from "./test";
 import { Propulsion } from './core/Propulsion.core';
 
 import { ConfigReader } from "./helpers/ConfigReader.helper";
+
 import { Factory } from './factories/main.factory';
 import { INSTANCES } from './factories/instances.const';
+import { WiringPINode } from './interfaces/wiringpi-node.interface';
 
 export class HUGO {
 
@@ -17,15 +19,7 @@ export class HUGO {
         Test.testPin23();
 
         const factory = new Factory();
-
-        try {
-            const instance = factory.getInstance(INSTANCES.WPI);
-            console.log(instance);
-        } catch (e) {
-            console.log(e);
-        }
-
-        // this.propulsion = new Propulsion();
+        this.propulsion = factory.getInstance(INSTANCES.Propulsion) as Propulsion;
     }
 
     private setRootDir() {

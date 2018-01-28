@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.INSTANCES = {
-    WPI: 'WPIInstance'
+    WPI: 'WPI',
+    Propulsion: 'Propulsion'
 };

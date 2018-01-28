@@ -5,7 +5,7 @@ const WPI = require("wiringpi-node");
 class Test {
     static testPin23() {
         WPI.wiringPiSetupGpio();
-        WPI.pinModeAlt(23, WPI.FSEL_OUTP);
+        WPI.pinMode(23, WPI.OUTPUT);
         WPI.digitalWrite(23, 0);
         SLEEP.msleep(500);
         WPI.digitalWrite(23, 1);

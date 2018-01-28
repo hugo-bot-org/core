@@ -1,13 +1,11 @@
 import { WPIFactory } from "./wpi.factory";
+import { PropulsionFactory } from "./propulsion.factory";
 
 export class Factory {
     private factories = {
-        WPIInstance: new WPIFactory().resolve()
+        WPI: WPIFactory.resolve(),
+        Propulsion: PropulsionFactory.resolve()
     };
-
-    public constructor() {
-
-    }
 
     public getInstance(instance: string) {
         const returnInstance = this.factories[instance];
