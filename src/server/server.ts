@@ -1,7 +1,8 @@
+import * as fs from 'fs';
 import * as http from 'http';
+import * as cors from 'cors';
 import * as io from 'socket.io';
 import * as express from 'express';
-import * as cors from 'cors';
 
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
@@ -10,6 +11,12 @@ import { SocketEventType } from './events/socket-event-type.event';
 import { Intercom } from '../core/Intercom.core';
 import { PropulsionIntercomEnum } from '../enums/propulsion-intercom.enum';
 import { LightingIntercomEnum } from '../enums/lighting-intercom.enum';
+import { GLOBAL_KEYS } from '../consts/global-keys.const';
+import { Factory } from '../factories/main.factory';
+import { INSTANCES } from '../consts/instances.const';
+import { Cam } from '../core/Cam.core';
+import { CamIntercomEnum } from '../enums/cam-intercom.enum';
+import { Base64Encoder } from '../helpers/Base64Encoder.helper';
 
 export class ServerIO {
     //  Socket and server stuff
@@ -68,10 +75,30 @@ export class ServerIO {
     }
 
     public start() {
+        this.app.use(cors());
         this.HTTPServer.listen(process.env.PORT || 4000, () => {
             console.log(`HTTP Server started on port ${this.HTTPServer.address().port}`);
-            // Logger.info(`Server started on port ${this.HTTPServer.address().port}`);
         });
+
+        this.app.get('/takePic', (req, res) => {
+            console.log('The user requested cam.takePic');
+            const factory = global[GLOBAL_KEYS.hugo_factory] as Factory;
+            const camInstance = factory.getInstance(INSTANCES.Cam) as Cam;
+            Intercom.camIntercom = CamIntercomEnum.TAKE_PIC;
+
+            const sub = camInstance.$shotTaken
+                .filter(result => !!result)
+                .subscribe(() => {
+                    console.log('The shot has been succesfully taken');
+                    fs.readFile('/home/maxine/pictures/pic.jpg', (err, data) => {
+                        console.log('Sending pic via Socket');
+                        const pic = Base64Encoder.base64Encode(data);
+                        res.json({ img_data: pic });
+                        sub.unsubscribe();
+                    });
+                });
+
+        })
     }
 
     private createServer() {

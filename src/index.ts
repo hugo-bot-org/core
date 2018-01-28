@@ -1,19 +1,22 @@
 import * as path from 'path';
 import 'rxjs/add/operator/filter';
 
-
 import { ServerIO } from './server/server';
+
+import { Cam } from './core/Cam.core';
 import { Lighting } from './core/Lighting.core';
 import { Propulsion } from './core/Propulsion.core';
 
 import { ConfigReader } from "./helpers/ConfigReader.helper";
 
 import { Factory } from './factories/main.factory';
-import { INSTANCES } from './factories/instances.const';
+import { INSTANCES } from './consts/instances.const';
 
 import { WiringPINode } from './interfaces/wiringpi-node.interface';
+import { GLOBAL_KEYS } from './consts/global-keys.const';
 
 export class HUGO {
+    private cam: Cam;
     private server: ServerIO;
     private lighting: Lighting;
     private propulsion: Propulsion;
@@ -22,11 +25,16 @@ export class HUGO {
         this.setRootDir();
 
         const factory = new Factory();
+        global[GLOBAL_KEYS.hugo_factory] = factory;
+
         this.propulsion = factory.getInstance(INSTANCES.Propulsion) as Propulsion;
         this.propulsion.useIntercom(true);
 
         this.lighting = factory.getInstance(INSTANCES.Lighting) as Lighting;
         this.lighting.useIntercom(true);
+
+        this.cam = factory.getInstance(INSTANCES.Cam) as Cam;
+        this.cam.useIntercom(true);
 
         this.server = new ServerIO();
         this.server.start();

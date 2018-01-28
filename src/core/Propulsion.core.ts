@@ -1,5 +1,3 @@
-import * as Gpio from 'onoff';
-
 import { MotorsPinout } from "../interfaces/motors-pinout.interface";
 import { ConfigReader } from "../helpers/ConfigReader.helper";
 
@@ -97,6 +95,7 @@ export class Propulsion implements IntercomAble {
     }
 
     private setPinModes() {
+        this.wpi.pinMode(12, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.driver, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.A.FWD, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.A.BWD, this.wpi.OUTPUT);
