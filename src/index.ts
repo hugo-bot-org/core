@@ -1,6 +1,8 @@
 import * as path from 'path';
+import 'rxjs/add/operator/filter';
 
 
+import { ServerIO } from './server/server';
 import { Lighting } from './core/Lighting.core';
 import { Propulsion } from './core/Propulsion.core';
 
@@ -12,7 +14,7 @@ import { INSTANCES } from './factories/instances.const';
 import { WiringPINode } from './interfaces/wiringpi-node.interface';
 
 export class HUGO {
-
+    private server: ServerIO;
     private lighting: Lighting;
     private propulsion: Propulsion;
 
@@ -21,7 +23,13 @@ export class HUGO {
 
         const factory = new Factory();
         this.propulsion = factory.getInstance(INSTANCES.Propulsion) as Propulsion;
+        this.propulsion.useIntercom(true);
+
         this.lighting = factory.getInstance(INSTANCES.Lighting) as Lighting;
+        this.lighting.useIntercom(true);
+
+        this.server = new ServerIO();
+        this.server.start();
     }
 
     private setRootDir() {

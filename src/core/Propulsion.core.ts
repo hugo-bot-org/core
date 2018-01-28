@@ -4,16 +4,64 @@ import { MotorsPinout } from "../interfaces/motors-pinout.interface";
 import { ConfigReader } from "../helpers/ConfigReader.helper";
 
 import { WiringPINode } from "../interfaces/wiringpi-node.interface";
+import { Intercom } from './Intercom.core';
+import { IntercomAble } from '../interfaces/intercomable.interface';
+import { Subscription } from 'rxjs/Subscription';
+import { PropulsionIntercomEnum } from '../enums/propulsion-intercom.enum';
 
-export class Propulsion {
+export class Propulsion implements IntercomAble {
     private wpi: WiringPINode;
     private motors: MotorsPinout;
+    private intercomSubscription: Subscription;
 
-    public constructor(wpi: WiringPINode) {
+    public constructor(wpi: WiringPINode, useIntercom?: boolean) {
         this.wpi = wpi;
         this.wpi.wiringPiSetupGpio();
         this.motors = ConfigReader.getConfigSync().pins.motors;
         this.setPinModes();
+    }
+
+    public useIntercom(value: boolean) {
+        if (value && !this.intercomSubscription) {
+            this.intercomSubscription = Intercom.$propulsionIntercom
+                .do(res => this.handlePropulsionIntercom(res))
+                .subscribe();
+
+            return;
+        }
+
+        if (!value && !!this.intercomSubscription) {
+            this.intercomSubscription.unsubscribe();
+        }
+
+        return;
+    }
+
+    private handlePropulsionIntercom(data: PropulsionIntercomEnum) {
+        if (data === PropulsionIntercomEnum.FWD) {
+            this.FWD();
+            return;
+        }
+
+        if (data === PropulsionIntercomEnum.BWD) {
+            this.BWD();
+            return;
+        }
+
+        if (data === PropulsionIntercomEnum.LEFT) {
+            this.LEFT();
+            return;
+        }
+
+        if (data === PropulsionIntercomEnum.RIGHT) {
+            this.RIGHT();
+            return;
+        }
+
+        if (data === PropulsionIntercomEnum.STOP) {
+            this.STOP();
+            return;
+        }
     }
 
     public FWD() {
@@ -51,7 +99,9 @@ export class Propulsion {
     private setPinModes() {
         this.wpi.pinMode(this.motors.driver, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.A.FWD, this.wpi.OUTPUT);
+        this.wpi.pinMode(this.motors.A.BWD, this.wpi.OUTPUT);
         this.wpi.pinMode(this.motors.B.FWD, this.wpi.OUTPUT);
+        this.wpi.pinMode(this.motors.B.BWD, this.wpi.OUTPUT);
     }
 
     private setDriverPower(state: number) {
