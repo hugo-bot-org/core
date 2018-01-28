@@ -1,10 +1,12 @@
 import { WPIFactory } from "./wpi.factory";
+import { LightingFactory } from "./lighting.factory";
 import { PropulsionFactory } from "./propulsion.factory";
 
 export class Factory {
     private factories = {
         WPI: WPIFactory.resolve(),
-        Propulsion: PropulsionFactory.resolve()
+        Propulsion: PropulsionFactory.resolve(),
+        Lighting: LightingFactory.resolve(),
     };
 
     public getInstance(instance: string) {

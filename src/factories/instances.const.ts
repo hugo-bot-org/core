@@ -1,4 +1,5 @@
 export const INSTANCES = {
     WPI: 'WPI',
-    Propulsion: 'Propulsion'
+    Lighting: 'Lighting',
+    Propulsion: 'Propulsion',
 }

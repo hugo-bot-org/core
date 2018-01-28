@@ -13,5 +13,4 @@ export class PropulsionFactory {
 
         return PropulsionFactory.instance;
     }
-
 }

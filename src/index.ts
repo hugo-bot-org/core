@@ -1,25 +1,27 @@
 import * as path from 'path';
 
 
-import { Test } from "./test";
+import { Lighting } from './core/Lighting.core';
 import { Propulsion } from './core/Propulsion.core';
 
 import { ConfigReader } from "./helpers/ConfigReader.helper";
 
 import { Factory } from './factories/main.factory';
 import { INSTANCES } from './factories/instances.const';
+
 import { WiringPINode } from './interfaces/wiringpi-node.interface';
 
 export class HUGO {
 
+    private lighting: Lighting;
     private propulsion: Propulsion;
 
     public constructor() {
         this.setRootDir();
-        Test.testPin23();
 
         const factory = new Factory();
         this.propulsion = factory.getInstance(INSTANCES.Propulsion) as Propulsion;
+        this.lighting = factory.getInstance(INSTANCES.Lighting) as Lighting;
     }
 
     private setRootDir() {
